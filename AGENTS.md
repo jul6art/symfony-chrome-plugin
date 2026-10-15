@@ -15,6 +15,7 @@ the JSON response and opens the Symfony profiler through the `X-Debug-Token-Link
 | `manifest.json` | Declares the extension and its DevTools page. |
 | `devtools.js` | Captures requests as soon as DevTools opens and keeps them in a shared object, the `store`. |
 | `panel.html`, `panel.js`, `panel.css` | The **Symfony** tab's interface. |
+| `icons/` | Extension icons declared in the manifest, 16 to 128 px. `docs/logo.png` is the README logo. |
 | `tests/mock-store.js` | Fake `store` that injects requests to test the interface outside DevTools. |
 | `tests/e2e/` | End-to-end test: the extension in a real DevTools, against a fake Symfony API (`server.mjs`). |
 | `scripts/` | Checks, rendering, end-to-end test and packaging, run locally and in CI. |

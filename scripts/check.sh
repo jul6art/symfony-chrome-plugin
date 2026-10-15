@@ -12,7 +12,7 @@ const fs = require("fs");
 const m = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
 if (m.manifest_version !== 3) throw new Error("manifest_version must be 3");
 if (!/^\d+(\.\d+){0,3}$/.test(m.version)) throw new Error(`invalid version: ${m.version}`);
-for (const page of [m.devtools_page, "panel.html"]) {
+for (const page of [m.devtools_page, "panel.html", ...Object.values(m.icons || {})]) {
   if (!fs.existsSync(page)) throw new Error(`missing ${page}`);
 }
 // MV3 extension pages refuse inline scripts, so every <script> must have a src.

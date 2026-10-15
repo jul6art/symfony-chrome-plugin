@@ -8,5 +8,5 @@ out="dist/symfony-chrome-plugin-${version}.zip"
 
 mkdir -p dist
 rm -f "$out"
-zip -q "$out" manifest.json *.html *.js *.css LICENSE
+zip -q "$out" manifest.json *.html *.js *.css LICENSE icons/*.png
 echo "$out"

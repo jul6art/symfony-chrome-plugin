@@ -47,6 +47,9 @@ try {
   const capS = await cdp.attach(devtoolsPage.targetId);
   await waitFor(() => cdp.evaluate(capS, `typeof store === 'object'`), 'devtools.js store');
   check('extension loaded, devtools.js running', extId, devtoolsPage.url);
+  const icons = await cdp.evaluate(capS, `Promise.all(Object.entries(chrome.runtime.getManifest().icons || {})
+    .map(([size, path]) => fetch(chrome.runtime.getURL(path)).then(r => [size, r.ok], () => [size, false])))`);
+  check('the 4 manifest icons are in the package', icons.length === 4 && icons.every(([, ok]) => ok), icons);
 
   // 1. Requests made before the Symfony tab is ever shown.
   await cdp.evaluate(pageS, `(async () => {

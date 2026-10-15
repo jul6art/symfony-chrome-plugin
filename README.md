@@ -13,6 +13,8 @@ Symfony Chrome plugin
     <img src="https://img.shields.io/static/v1?label=dependencies&message=none&color=22c55e" alt="No dependencies">
 </p>
 
+<img src="docs/logo.png" alt="Symfony Chrome plugin logo" width="160" align="right">
+
 A **Symfony** tab in Chrome DevTools. It lists the XHR and fetch calls of your Angular application —
 or of any front end that talks to a Symfony API — newest first. Each call shows its JSON response as
 a tree and opens the Symfony profiler in one click.
@@ -85,6 +87,7 @@ The extension has no dependency and no build step: Chrome loads the folder as it
 | `manifest.json` | Declares the extension and its DevTools page. |
 | `devtools.js` | Captures requests as soon as DevTools opens, before the tab is even shown. |
 | `panel.html`, `panel.js`, `panel.css` | The **Symfony** tab's interface. |
+| `icons/` | Extension icons, 16 to 128 px, cut from the logo shown at the top (`docs/logo.png`). |
 | `tests/mock-store.js` | Fake requests to test the interface outside DevTools. |
 | `tests/e2e/` | End-to-end test in a real DevTools, against a fake Symfony API. |
 | `scripts/` | Checks, rendering, end-to-end test and packaging, run locally and in CI. |
