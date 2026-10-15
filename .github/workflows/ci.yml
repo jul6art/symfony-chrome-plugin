@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Static checks
+        run: ./scripts/check.sh
+
+      - name: Package
+        id: package
+        run: echo "zip=$(./scripts/package.sh)" >> "$GITHUB_OUTPUT"
+
+      # Google Chrome ignores --load-extension, Chrome for Testing does not.
+      - name: Install Chrome for Testing
+        run: npx --yes @puppeteer/browsers@3.2.3 install chrome@stable --path "$HOME/.cache/puppeteer"
+
+      # Tests the zip itself, so a release never ships an untested package.
+      - name: End-to-end test
+        run: ./scripts/e2e.sh "${{ steps.package.outputs.zip }}"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-screenshot
+          path: dist/e2e.png
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: extension
+          path: ${{ steps.package.outputs.zip }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      # A tag that disagrees with manifest.json would publish a zip with the wrong version.
+      - name: Check tag matches manifest version
+        run: |
+          version=$(node -p 'require("./manifest.json").version')
+          test "${GITHUB_REF_NAME}" = "v${version}" || {
+            echo "Tag ${GITHUB_REF_NAME} does not match manifest version ${version}"
+            exit 1
+          }
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: extension
+          path: dist
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # --notes is prepended to the generated changelog.
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes \
+            --notes "$(cat .github/release-notes.md)"

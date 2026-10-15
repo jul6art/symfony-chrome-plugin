@@ -1,0 +1,9 @@
+# Zips from scripts/package.sh and screenshots from scripts/render.sh.
+/dist/
+
+# Temporary page written by scripts/render.sh, left behind if a render is killed.
+/render-fixture.html
+
+/.idea/
+/.vscode/
+.DS_Store

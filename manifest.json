@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Symfony Chrome plugin",
+  "version": "1.0.0",
+  "description": "DevTools panel listing XHR/fetch calls newest first, with response preview and one-click Symfony profiler links.",
+  "devtools_page": "devtools.html",
+  "host_permissions": ["*://localhost/*", "*://*.localhost/*"]
+}
