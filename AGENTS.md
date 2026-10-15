@@ -15,10 +15,12 @@ the JSON response and opens the Symfony profiler through the `X-Debug-Token-Link
 | `manifest.json` | Declares the extension and its DevTools page. |
 | `devtools.js` | Captures requests as soon as DevTools opens and keeps them in a shared object, the `store`. |
 | `panel.html`, `panel.js`, `panel.css` | The **Symfony** tab's interface. |
-| `icons/` | Extension icons declared in the manifest, 16 to 128 px. `docs/logo.png` is the README logo. |
+| `icons/` | Extension icons declared in the manifest, 16 to 128 px, generated from `icons/icon.svg`. `docs/logo.png` is the README logo. |
+| `store/` | Chrome Web Store listing: `listing.md` (texts and setup), `promo.html` (promo tile source), generated images. |
+| `PRIVACY.md` | Privacy policy linked from the store listing. Keep it true when the extension's data handling changes. |
 | `tests/mock-store.js` | Fake `store` that injects requests to test the interface outside DevTools. |
 | `tests/e2e/` | End-to-end test: the extension in a real DevTools, against a fake Symfony API (`server.mjs`). |
-| `scripts/` | Checks, rendering, end-to-end test and packaging, run locally and in CI. |
+| `scripts/` | Checks, rendering, end-to-end test, packaging, store images (`store-assets.sh`) and store publishing (`publish-store.mjs`). |
 
 `devtools.js` hands the `store` to `panel.js` through `panel.onShown`, which calls
 `window.attach(store)`. The panel only exists once it is shown. That is why capture lives in
@@ -49,6 +51,9 @@ the JSON response and opens the Symfony profiler through the `X-Debug-Token-Link
    against `tests/e2e/server.mjs`. It saves a screenshot to `dist/e2e.png`.
 4. If you add a case to the interface, add a matching request to `tests/mock-store.js` and a check
    to `tests/e2e/run.mjs`.
+5. If you change the interface, `icons/icon.svg` or `store/promo.html`, run
+   `scripts/store-assets.sh` and commit the regenerated icons and store images. The store
+   screenshots come from `tests/mock-store.js`: its last request is the selected one.
 
 `scripts/render.sh` needs Google Chrome. On a system other than macOS, set its path in the
 `CHROME` variable.
@@ -70,3 +75,9 @@ The CI, defined in `.github/workflows/ci.yml`, runs the checks, builds the zip a
 end-to-end test on that zip, on every push to `master` and every pull request. On a tag, it also
 checks that the tag matches the manifest version, then creates a GitHub release with the zip. The
 installation steps at the top of the release come from `.github/release-notes.md`.
+
+When the store is set up (secret `CWS_SERVICE_ACCOUNT_KEY`, variables `CWS_PUBLISHER_ID` and
+`CWS_EXTENSION_ID`), the tag also submits the zip to the Chrome Web Store with
+`scripts/publish-store.mjs`. The store refuses a version that is not higher than the published one.
+Never name the extension or draw its icon with the Chrome or Symfony trademarks: the store rejects
+them. Keep "… for Symfony" in the name.

@@ -3,7 +3,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-for f in *.js; do
+for f in *.js scripts/*.mjs tests/e2e/*.mjs; do
   node --check "$f"
 done
 
@@ -12,6 +12,9 @@ const fs = require("fs");
 const m = JSON.parse(fs.readFileSync("manifest.json", "utf8"));
 if (m.manifest_version !== 3) throw new Error("manifest_version must be 3");
 if (!/^\d+(\.\d+){0,3}$/.test(m.version)) throw new Error(`invalid version: ${m.version}`);
+// Chrome Web Store limits.
+if (m.name.length > 75) throw new Error(`name longer than 75 characters: ${m.name}`);
+if (m.description.length > 132) throw new Error(`description longer than 132 characters (${m.description.length})`);
 for (const page of [m.devtools_page, "panel.html", ...Object.values(m.icons || {})]) {
   if (!fs.existsSync(page)) throw new Error(`missing ${page}`);
 }

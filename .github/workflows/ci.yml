@@ -51,6 +51,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      # The Chrome Web Store step runs once the store is set up: see store/listing.md.
+      STORE_CONFIGURED: ${{ secrets.CWS_SERVICE_ACCOUNT_KEY != '' && vars.CWS_PUBLISHER_ID != '' && vars.CWS_EXTENSION_ID != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -75,3 +78,16 @@ jobs:
         run: |
           gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes \
             --notes "$(cat .github/release-notes.md)"
+
+      - uses: actions/setup-node@v4
+        if: env.STORE_CONFIGURED == 'true'
+        with:
+          node-version: 22
+
+      - name: Submit to the Chrome Web Store
+        if: env.STORE_CONFIGURED == 'true'
+        env:
+          CWS_SERVICE_ACCOUNT_KEY: ${{ secrets.CWS_SERVICE_ACCOUNT_KEY }}
+          CWS_PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+          CWS_EXTENSION_ID: ${{ vars.CWS_EXTENSION_ID }}
+        run: node scripts/publish-store.mjs dist/*.zip

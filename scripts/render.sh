@@ -16,7 +16,7 @@ sed 's#<script src="panel.js"></script>#<script src="panel.js"></script><script 
   panel.html > "$fixture"
 
 url="file://$PWD/$fixture?theme=$theme"
-flags=(--headless=new --user-data-dir="$tmp" --allow-file-access-from-files --window-size=1100,600)
+flags=(--headless=new --user-data-dir="$tmp" --allow-file-access-from-files --window-size="${WINDOW:-1100,600}")
 
 mkdir -p "$(dirname "$shot")"
 "$chrome" "${flags[@]}" --screenshot="$shot" "$url" >/dev/null 2>&1

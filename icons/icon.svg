@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <!-- Source of icons/icon-*.png and the store images: run scripts/store-assets.sh after a change. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <!-- The border keeps the tile visible on a dark background. -->
+  <rect x="0.75" y="0.75" width="94.5" height="94.5" rx="21.25" fill="url(#bg)" stroke="#334155" stroke-width="1.5"/>
+  <!-- A stopwatch, the ⏱ that opens the profiler in the panel. -->
+  <rect x="40" y="11" width="16" height="7" rx="2.5" fill="#f1f5f9"/>
+  <rect x="44.5" y="17" width="7" height="9" fill="#f1f5f9"/>
+  <rect x="67" y="25" width="10" height="6" rx="2" fill="#f1f5f9" transform="rotate(45 72 28)"/>
+  <circle cx="48" cy="56" r="26" fill="none" stroke="#f1f5f9" stroke-width="7"/>
+  <path d="M48 56 L58 40" stroke="#38bdf8" stroke-width="6.5" stroke-linecap="round"/>
+  <circle cx="48" cy="56" r="5.5" fill="#38bdf8"/>
+</svg>

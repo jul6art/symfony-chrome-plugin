@@ -8,7 +8,7 @@ Symfony Chrome plugin
 <p align="left">
     <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
     <a href="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml"><img src="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
-    <a href="https://github.com/jul6art/symfony-chrome-plugin/releases/latest"><img src="https://img.shields.io/static/v1?label=stable&message=v1.0.1&color=0ea5e9" alt="Version"></a>
+    <a href="https://github.com/jul6art/symfony-chrome-plugin/releases/latest"><img src="https://img.shields.io/static/v1?label=stable&message=v1.1.0&color=0ea5e9" alt="Version"></a>
     <img src="https://img.shields.io/static/v1?label=Chrome&message=Manifest%20V3&color=4285f4" alt="Manifest V3">
     <img src="https://img.shields.io/static/v1?label=dependencies&message=none&color=22c55e" alt="No dependencies">
 </p>
@@ -16,6 +16,9 @@ Symfony Chrome plugin
 A **Symfony** tab in Chrome DevTools. It lists the XHR and fetch calls of your Angular application —
 or of any front end that talks to a Symfony API — newest first. Each call shows its JSON response as
 a tree and opens the Symfony profiler in one click.
+
+In Chrome, the extension is called **API Profiler Links for Symfony**: the Chrome Web Store does not
+accept Google's or Symfony's trademarks as a product name.
 
 > 🙏 **This plugin is the work of Luis Rosas**, who designed and wrote it; this repository only
 > publishes it. Thank you, Luis, for a tool that puts the Symfony profiler one click away from every
@@ -85,10 +88,12 @@ The extension has no dependency and no build step: Chrome loads the folder as it
 | `manifest.json` | Declares the extension and its DevTools page. |
 | `devtools.js` | Captures requests as soon as DevTools opens, before the tab is even shown. |
 | `panel.html`, `panel.js`, `panel.css` | The **Symfony** tab's interface. |
-| `icons/` | Extension icons, 16 to 128 px, cut from the logo shown at the top (`docs/logo.png`). |
+| `icons/` | Extension icons, 16 to 128 px, drawn from `icons/icon.svg`. `docs/logo.png` is the project logo above. |
+| `store/` | Chrome Web Store listing: texts to paste (`listing.md`), promo tile source and generated images. |
+| `PRIVACY.md` | Privacy policy, linked from the store listing. |
 | `tests/mock-store.js` | Fake requests to test the interface outside DevTools. |
 | `tests/e2e/` | End-to-end test in a real DevTools, against a fake Symfony API. |
-| `scripts/` | Checks, rendering, end-to-end test and packaging, run locally and in CI. |
+| `scripts/` | Checks, rendering, end-to-end test, packaging, store images and store publishing. |
 
 ```shell
 scripts/check.sh          # JavaScript syntax, manifest, no inline script in HTML (Node.js)
@@ -96,10 +101,15 @@ scripts/render.sh dark    # screenshot of the interface in dist/, dark theme (Go
 scripts/render.sh light   # same, light theme
 scripts/e2e.sh            # end-to-end test in a real DevTools (Chrome for Testing)
 scripts/package.sh        # dist/symfony-chrome-plugin-<version>.zip
+scripts/store-assets.sh   # icons and Chrome Web Store images, from their sources (Google Chrome)
 ```
 
-`scripts/render.sh` looks for Chrome at its macOS location. On another system, set its path in the
-`CHROME` variable.
+`scripts/render.sh` and `scripts/store-assets.sh` look for Chrome at its macOS location. On another
+system, set its path in the `CHROME` variable.
+
+The extension icons and the store images are generated files: change `icons/icon.svg`,
+`store/promo.html` or `tests/mock-store.js`, then run `scripts/store-assets.sh` and commit the
+result. The store icon cannot use the Chrome or Symfony logos, which are trademarks.
 
 ### End-to-end test
 
@@ -120,7 +130,7 @@ Node.js 22 or later.
 
 ```shell
 scripts/e2e.sh                                   # this folder
-scripts/e2e.sh dist/symfony-chrome-plugin-1.0.1.zip  # a packaged build, as the CI does
+scripts/e2e.sh dist/symfony-chrome-plugin-1.1.0.zip  # a packaged build, as the CI does
 scripts/e2e.sh . headed                          # with a visible window
 ```
 
@@ -136,9 +146,16 @@ the end-to-end test on that zip. On a tag, it also checks that the tag matches t
 version, then publishes a GitHub release with the zip and the installation steps from
 `.github/release-notes.md`.
 
+Once the extension is on the Chrome Web Store and the CI holds its credentials, a tag also submits
+the zip to the store for review. [store/listing.md](store/listing.md) has the listing texts and the
+one-time setup.
+
 License
 -------
 
 This plugin is open-sourced software licensed under the [MIT license](LICENSE).
 
 Designed and written by **Luis Rosas**. Published by [jul6art](https://devinthehood.com).
+
+Symfony is a trademark of Symfony SAS, and Chrome a trademark of Google LLC. This project is not
+affiliated with or endorsed by either.
