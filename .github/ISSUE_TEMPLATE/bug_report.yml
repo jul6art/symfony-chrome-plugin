@@ -1,0 +1,72 @@
+name: Bug report
+description: Something the extension does is wrong
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The most useful bug report here is **the request that misbehaves**:
+        its method, status and `X-Debug-Token*` headers, and what the **Symfony** tab shows for it.
+        Remove anything sensitive — tokens, cookies, personal data — before pasting.
+
+        **Do not report a security problem here** — use
+        [private vulnerability reporting](https://github.com/jul6art/symfony-chrome-plugin/security/advisories/new)
+        instead, as described in [SECURITY.md](https://github.com/jul6art/symfony-chrome-plugin/blob/master/.github/SECURITY.md).
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      description: As shown in `chrome://extensions`.
+      placeholder: 1.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: source
+    attributes:
+      label: Installed from
+      options:
+        - Chrome Web Store
+        - Release zip
+        - Clone of this repository
+    validations:
+      required: true
+  - type: input
+    id: chrome
+    attributes:
+      label: Chrome and Symfony versions
+      description: Chrome from `chrome://version`; Symfony from your API.
+      placeholder: Chrome 155.0.8059.40, Symfony 7.4.3
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+      description: |
+        What the Symfony tab shows — a screenshot helps. For an error in the panel itself, undock
+        DevTools, press ⌘⌥I (Ctrl+Shift+I) on it to inspect the panel, and paste the console.
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: The request
+      description: Method, URL path, status, response content type, and the `X-Debug-Token` and `X-Debug-Token-Link` headers.
+      render: http
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I am on the latest release, and the problem is still there
+          required: true
+        - label: DevTools was open before the request was sent (Chrome records nothing otherwise)
+          required: true

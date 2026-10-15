@@ -17,6 +17,7 @@ the JSON response and opens the Symfony profiler through the `X-Debug-Token-Link
 | `panel.html`, `panel.js`, `panel.css` | The **Symfony** tab's interface. |
 | `icons/` | Extension icons declared in the manifest, 16 to 128 px, generated from `icons/icon.svg`. `docs/logo.png` is the README logo. |
 | `store/` | Chrome Web Store listing: `listing.md` (texts and setup), `promo.html` (promo tile source), generated images. |
+| `.github/` | CI workflow, release notes, and the community files: `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, issue and pull request templates. Keep the house rules of `CONTRIBUTING.md` in line with the constraints below. |
 | `PRIVACY.md` | Privacy policy linked from the store listing. Keep it true when the extension's data handling changes. |
 | `tests/mock-store.js` | Fake `store` that injects requests to test the interface outside DevTools. |
 | `tests/e2e/` | End-to-end test: the extension in a real DevTools, against a fake Symfony API (`server.mjs`). |

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/jul6art/symfony-chrome-plugin/security/advisories/new
+    about: Request data leaving the browser, response data running code in the panel, a crafted profiler link. Reported privately, never as an issue.
+  - name: How to contribute
+    url: https://github.com/jul6art/symfony-chrome-plugin/blob/master/.github/CONTRIBUTING.md
+    about: The checks, what the CI adds on top of them, and the house rules.
+  - name: Documentation
+    url: https://github.com/jul6art/symfony-chrome-plugin#readme
+    about: Installation, usage and limits.

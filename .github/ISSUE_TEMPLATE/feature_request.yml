@@ -1,0 +1,46 @@
+name: Feature request
+description: Something the extension should do, or do differently
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Worth knowing before you write: this extension is **small on purpose** — no dependency, no
+        build step, one permission. The bar for adding to it is a problem you hit while debugging,
+        not a case that might one day come up.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What were you debugging, and what did you have to do by hand?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: Be concrete — a button, a column, a filter, a profiler panel to link. A sketch of the tab helps.
+    validations:
+      required: true
+  - type: dropdown
+    id: permission
+    attributes:
+      label: Does it need a new permission?
+      description: |
+        A permission that comes with an install warning — any new host, for one — makes Chrome
+        disable the extension after the update until each user accepts it. Every permission is
+        also justified on the store listing.
+      options:
+        - 'No: it works with what the extension already has'
+        - 'Yes: it needs a new permission or host permission'
+        - I am not sure
+    validations:
+      required: true
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Why it belongs in the extension
+      description: |
+        Rather than in DevTools' own Network tab, or in the Symfony profiler.
+    validations:
+      required: false

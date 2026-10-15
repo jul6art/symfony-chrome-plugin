@@ -134,7 +134,8 @@ scripts/e2e.sh dist/symfony-chrome-plugin-1.1.0.zip  # a packaged build, as the 
 scripts/e2e.sh . headed                          # with a visible window
 ```
 
-Instructions for coding agents are in [AGENTS.md](AGENTS.md).
+Contributions follow [CONTRIBUTING.md](.github/CONTRIBUTING.md), security reports
+[SECURITY.md](.github/SECURITY.md). Instructions for coding agents are in [AGENTS.md](AGENTS.md).
 
 ### Releasing a version
 
