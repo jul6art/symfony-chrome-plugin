@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://devinthehood.com"><img src="https://github.com/jul6art/symfony-skeleton-generator/blob/master/public/img/logo.png?raw=true" alt="logo dev in the hood" width="400"></a>
+    <a href="https://devinthehood.com"><img src="docs/logo.png" alt="Symfony Chrome plugin logo" width="400"></a>
 </p>
 
 Symfony Chrome plugin
@@ -8,12 +8,10 @@ Symfony Chrome plugin
 <p align="left">
     <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
     <a href="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml"><img src="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
-    <a href="https://github.com/jul6art/symfony-chrome-plugin/releases/latest"><img src="https://img.shields.io/static/v1?label=stable&message=v1.0.0&color=0ea5e9" alt="Version"></a>
+    <a href="https://github.com/jul6art/symfony-chrome-plugin/releases/latest"><img src="https://img.shields.io/static/v1?label=stable&message=v1.0.1&color=0ea5e9" alt="Version"></a>
     <img src="https://img.shields.io/static/v1?label=Chrome&message=Manifest%20V3&color=4285f4" alt="Manifest V3">
     <img src="https://img.shields.io/static/v1?label=dependencies&message=none&color=22c55e" alt="No dependencies">
 </p>
-
-<img src="docs/logo.png" alt="Symfony Chrome plugin logo" width="160" align="right">
 
 A **Symfony** tab in Chrome DevTools. It lists the XHR and fetch calls of your Angular application —
 or of any front end that talks to a Symfony API — newest first. Each call shows its JSON response as
@@ -122,7 +120,7 @@ Node.js 22 or later.
 
 ```shell
 scripts/e2e.sh                                   # this folder
-scripts/e2e.sh dist/symfony-chrome-plugin-1.0.0.zip  # a packaged build, as the CI does
+scripts/e2e.sh dist/symfony-chrome-plugin-1.0.1.zip  # a packaged build, as the CI does
 scripts/e2e.sh . headed                          # with a visible window
 ```
 

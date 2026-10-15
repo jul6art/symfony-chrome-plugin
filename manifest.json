@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Symfony Chrome plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DevTools panel listing XHR/fetch calls newest first, with response preview and one-click Symfony profiler links.",
   "icons": {
     "16": "icons/icon-16.png",
