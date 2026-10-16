@@ -77,8 +77,10 @@ end-to-end test on that zip, on every push to `master` and every pull request. O
 checks that the tag matches the manifest version, then creates a GitHub release with the zip. The
 installation steps at the top of the release come from `.github/release-notes.md`.
 
-When the store is set up (secret `CWS_SERVICE_ACCOUNT_KEY`, variables `CWS_PUBLISHER_ID` and
-`CWS_EXTENSION_ID`), the tag also submits the zip to the Chrome Web Store with
-`scripts/publish-store.mjs`. The store refuses a version that is not higher than the published one.
+The extension is published on the Chrome Web Store (https://chromewebstore.google.com/detail/ejpgoohpgnpfaldileagfncgmknnajno). The CI holds the store
+credentials (secret `CWS_SERVICE_ACCOUNT_KEY`, variables `CWS_PUBLISHER_ID` and `CWS_EXTENSION_ID`),
+so the tag also submits the zip to the store with `scripts/publish-store.mjs`. A manual run of the CI
+(`gh workflow run ci.yml`) checks the store setup without uploading anything: job `store-status`. A
+failed submission is retried with **Re-run failed jobs**; the existing GitHub release is skipped. The store refuses a version that is not higher than the published one.
 Never name the extension or draw its icon with the Chrome or Symfony trademarks: the store rejects
 them. Keep "… for Symfony" in the name.

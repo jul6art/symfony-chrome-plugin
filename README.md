@@ -9,6 +9,7 @@ Symfony Chrome plugin
     <a href="https://opensource.org/licenses/MIT" target="_blank"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
     <a href="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml"><img src="https://github.com/jul6art/symfony-chrome-plugin/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI"></a>
     <a href="https://github.com/jul6art/symfony-chrome-plugin/releases/latest"><img src="https://img.shields.io/static/v1?label=stable&message=v1.1.0&color=0ea5e9" alt="Version"></a>
+    <a href="https://chromewebstore.google.com/detail/ejpgoohpgnpfaldileagfncgmknnajno"><img src="https://img.shields.io/static/v1?label=Chrome%20Web%20Store&message=available&color=4285f4" alt="Chrome Web Store"></a>
     <img src="https://img.shields.io/static/v1?label=Chrome&message=Manifest%20V3&color=4285f4" alt="Manifest V3">
     <img src="https://img.shields.io/static/v1?label=dependencies&message=none&color=22c55e" alt="No dependencies">
 </p>
@@ -17,8 +18,8 @@ A **Symfony** tab in Chrome DevTools. It lists the XHR and fetch calls of your A
 or of any front end that talks to a Symfony API — newest first. Each call shows its JSON response as
 a tree and opens the Symfony profiler in one click.
 
-In Chrome, the extension is called **API Profiler Links for Symfony**: the Chrome Web Store does not
-accept Google's or Symfony's trademarks as a product name.
+In Chrome and on the Chrome Web Store, the extension is called **API Profiler Links for Symfony**:
+the store does not accept Google's or Symfony's trademarks as a product name.
 
 > 🙏 **This plugin is the work of Luis Rosas**, who designed and wrote it; this repository only
 > publishes it. Thank you, Luis, for a tool that puts the Symfony profiler one click away from every
@@ -34,6 +35,16 @@ Requirements
 Installation
 ------------
 
+Install **API Profiler Links for Symfony** from the
+[Chrome Web Store](https://chromewebstore.google.com/detail/ejpgoohpgnpfaldileagfncgmknnajno),
+then open DevTools on your application and the **Symfony** tab. Chrome keeps the extension up to
+date.
+
+### From a release zip
+
+Where the Chrome Web Store is out of reach — behind a company VPN or proxy, for example — or to stay
+on a given version:
+
 1. Download `symfony-chrome-plugin-<version>.zip` from the
    [latest release](https://github.com/jul6art/symfony-chrome-plugin/releases/latest) and unzip it
    into a folder you keep: Chrome loads the extension from that folder.
@@ -42,11 +53,12 @@ Installation
 4. Click **Load unpacked** and pick the unzipped folder.
 5. Open DevTools on your application, then the **Symfony** tab.
 
-The extension is not on the Chrome Web Store, so developer mode is the only way to install it. To
-update, replace the folder's contents with the new release, then click the extension's reload icon
-in `chrome://extensions`.
+To update, replace the folder's contents with the new release, then click the extension's reload icon
+in `chrome://extensions`. Install it one way only: with both, DevTools shows two **Symfony** tabs.
 
-To work on the code, clone the repository and load its folder the same way:
+### From the source
+
+To work on the code, clone the repository and load its folder the same way as a release zip:
 
 ```shell
 git clone https://github.com/jul6art/symfony-chrome-plugin.git
@@ -144,12 +156,19 @@ Contributions follow [CONTRIBUTING.md](.github/CONTRIBUTING.md), security report
 
 On every push to `master` and every pull request, the CI runs the checks, builds the zip and runs
 the end-to-end test on that zip. On a tag, it also checks that the tag matches the manifest
-version, then publishes a GitHub release with the zip and the installation steps from
-`.github/release-notes.md`.
+version, publishes a GitHub release with the zip and the installation steps from
+`.github/release-notes.md`, then submits the zip to the Chrome Web Store. The store publishes it once
+Google has reviewed it, and refuses a version that is not higher than the published one.
 
-Once the extension is on the Chrome Web Store and the CI holds its credentials, a tag also submits
-the zip to the store for review. [store/listing.md](store/listing.md) has the listing texts and the
-one-time setup.
+- **Checking the store setup on demand**: run the CI by hand — **Actions → CI → Run workflow**, or
+  `gh workflow run ci.yml -R jul6art/symfony-chrome-plugin`. Its `store-status` job signs in to the
+  Chrome Web Store and prints the extension's status, without uploading anything.
+- **Retrying a failed submission safely**: fix the cause, then use **Re-run failed jobs** on the tag's
+  run. The GitHub release step sees that the release already exists and skips it, so the retry does
+  not fail on it.
+
+[store/listing.md](store/listing.md) has the listing texts and the one-time setup of the store
+credentials.
 
 License
 -------
