@@ -2,16 +2,18 @@
 // Store API v2 and a service account. Run by the CI on version tags, once the store is set up
 // (see store/listing.md). Needs Node.js 18+ and no package.
 //
-// Usage: node scripts/publish-store.mjs <zip>
+// Usage: node scripts/publish-store.mjs <zip>     uploads the zip and submits it for review
+//        node scripts/publish-store.mjs --status  read-only check of the setup: prints the item's status
 // Environment: CWS_SERVICE_ACCOUNT_KEY (the service account's JSON key), CWS_PUBLISHER_ID,
 // CWS_EXTENSION_ID.
 import { createSign } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 const [zip] = process.argv.slice(2);
+const statusOnly = zip === '--status';
 const { CWS_SERVICE_ACCOUNT_KEY: key, CWS_PUBLISHER_ID: publisher, CWS_EXTENSION_ID: item } = process.env;
 if (!zip || !key || !publisher || !item) {
-  console.error('Usage: CWS_SERVICE_ACCOUNT_KEY=… CWS_PUBLISHER_ID=… CWS_EXTENSION_ID=… node scripts/publish-store.mjs <zip>');
+  console.error('Usage: CWS_SERVICE_ACCOUNT_KEY=… CWS_PUBLISHER_ID=… CWS_EXTENSION_ID=… node scripts/publish-store.mjs <zip>|--status');
   process.exit(2);
 }
 
@@ -50,6 +52,11 @@ async function call(token, url, init = {}) {
 }
 
 const token = await accessToken();
+
+if (statusOnly) {
+  console.log(JSON.stringify(await call(token, `${API}:fetchStatus`), null, 2));
+  process.exit(0);
+}
 
 const uploaded = await call(token, UPLOAD, {
   method: 'POST',

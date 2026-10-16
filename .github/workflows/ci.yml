@@ -5,6 +5,8 @@ on:
     branches: [master]
     tags: ['v*']
   pull_request:
+  # Manual run: the checks, plus a read-only check of the Chrome Web Store setup.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -45,6 +47,23 @@ jobs:
           name: extension
           path: ${{ steps.package.outputs.zip }}
 
+  store-status:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Authenticates with the service account and prints the item's status. Uploads nothing.
+      - name: Chrome Web Store status
+        env:
+          CWS_SERVICE_ACCOUNT_KEY: ${{ secrets.CWS_SERVICE_ACCOUNT_KEY }}
+          CWS_PUBLISHER_ID: ${{ vars.CWS_PUBLISHER_ID }}
+          CWS_EXTENSION_ID: ${{ vars.CWS_EXTENSION_ID }}
+        run: node scripts/publish-store.mjs --status
+
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: check
@@ -74,10 +93,12 @@ jobs:
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
-        # --notes is prepended to the generated changelog.
+        # --notes is prepended to the generated changelog. The release already exists when a
+        # failed store submission is re-run.
         run: |
-          gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes \
-            --notes "$(cat .github/release-notes.md)"
+          gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1 ||
+            gh release create "${GITHUB_REF_NAME}" dist/*.zip --generate-notes \
+              --notes "$(cat .github/release-notes.md)"
 
       - uses: actions/setup-node@v4
         if: env.STORE_CONFIGURED == 'true'

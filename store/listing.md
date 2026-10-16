@@ -116,6 +116,10 @@ to the store, after the GitHub release. Set it up once:
    - secret `CWS_SERVICE_ACCOUNT_KEY`: the whole content of the JSON key;
    - variables `CWS_PUBLISHER_ID` and `CWS_EXTENSION_ID`.
 
+To check the setup without uploading anything, run the CI by hand (**Actions → CI → Run workflow**,
+or `gh workflow run ci.yml`): its `store-status` job prints the item's status.
+
 From then on, each `v<version>` tag uploads the zip and submits it for review with
-`scripts/publish-store.mjs`. The step is skipped while any of the three values is missing. Publishing
+`scripts/publish-store.mjs`. The step is skipped while any of the three values is missing. If the
+submission fails, fix the cause and use **Re-run failed jobs**: the GitHub release is kept. Publishing
 keeps the visibility chosen in the Dashboard: after changing it there, publish once by hand.
